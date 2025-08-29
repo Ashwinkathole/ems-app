@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="mr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css">
+    <title>Employee Management System</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="head-wrap">
+        <h1>Employee Management System</h1>
+        <button id="addBtn" class="primary-btn">
+          <i class="fa-solid fa-user-plus"></i>
+          Add Employee
+        </button>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Search -->
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search by name, manager, department, or ID…"
+        />
+        <button id="clearBtn" class="clear-btn">
+          <i class="fa-solid fa-eraser"></i> Clear
+        </button>
+      </div>
+
+      <!-- Data Card -->
+      <div class="card">
+        <table aria-label="Employees">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>NAME</th>
+              <th>MANAGER</th>
+              <th>DEPARTMENT</th>
+              <th>SALARY</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="employeeTable">
+       
+          </tbody>
+        </table>
+
+        <div class="footer-row">
+          <div class="total">
+            Total Employees: <span id="totalCount" class="pill">0</span>
+          </div>
+          <div
+            id="statusMsg"
+            aria-live="polite"
+            style="color: var(--text-dim); font-size: 13px"
+          ></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Form -->
+    <div
+      id="employeeModal"
+      class="modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal-card">
+        <div class="modal-head">
+          <h2 id="modalTitle">Add Employee</h2>
+          <button class="close-x" id="closeModalBtn" title="Close">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <label for="empId">ID</label>
+            <input type="text" id="empId" readonly />
+          </div>
+          <div class="form-row">
+            <label for="empName">Name</label>
+            <input type="text" id="empName" placeholder="e.g., Rajesh" />
+          </div>
+          <div class="form-row">
+            <label for="empManager">Manager</label>
+            <input type="text" id="empManager" placeholder="e.g., Shruti" />
+          </div>
+          <div class="form-row">
+            <label>Department:</label>
+            <select id="empDept">
+              <option value="">-- Select Department --</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="empSalary">Salary</label>
+            <input
+              type="number"
+              id="empSalary"
+              placeholder="e.g., 700000"
+              min="0"
+            />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn cancel" id="cancelBtn">Cancel</button>
+          <button class="btn save" id="saveBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
