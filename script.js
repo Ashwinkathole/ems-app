@@ -21,8 +21,17 @@ const empName     = document.getElementById("empName");
 const empManager  = document.getElementById("empManager");
 const empDept     = document.getElementById("empDept");
 const empSalary   = document.getElementById("empSalary");
+const saveBtn     = document.getElementById("saveBtn");
 
 const searchInput = document.getElementById("searchInput");
+
+// Create pagination container dynamically
+const paginationDiv = document.createElement("div");
+paginationDiv.style.display = "flex";
+paginationDiv.style.justifyContent = "center";
+paginationDiv.style.gap = "10px";
+paginationDiv.style.margin = "16px 0";
+document.querySelector("main.container").appendChild(paginationDiv);
 
 // ======== HELPERS ========
 function showToast(msg){
@@ -64,12 +73,28 @@ function openModal(edit=false, rec=null){
     empDept.value = "";
     empSalary.value = "";
   }
+  updateSaveBtnState(); 
+  saveBtn.disabled = true; // सुरुवातीला नेहमी disable
   empName.focus();
 }
 function closeModal(){
   modal.classList.remove("open");
   document.body.style.overflow="";
 }
+
+// ======== SAVE BUTTON LOGIC ========
+function updateSaveBtnState(){
+  const filled = empName.value.trim() && empManager.value.trim() && empDept.value.trim() && empSalary.value.trim();
+  
+  if(filled){
+    saveBtn.disabled = false;
+    saveBtn.classList.add("blink");
+  } else {
+    saveBtn.disabled = true;
+    saveBtn.classList.remove("blink");
+  }
+}
+[empName, empManager, empDept, empSalary].forEach(el => el.addEventListener("input", updateSaveBtnState));
 
 // ======== CRUD ========
 function validate(){
@@ -98,10 +123,13 @@ function upsertEmployee(emp){
 function deleteEmployee(id){
   employees = employees.filter(e=>e.id!==id);
   showToast("Employee deleted");
+  if((currentPage-1)*pageSize >= employees.length && currentPage>1){
+    currentPage--; // move back if last page becomes empty
+  }
   renderTable();
 }
 
-// ======== TABLE RENDER ========
+// ======== TABLE RENDER + PAGINATION ========
 function renderTable(list=employees){
   tableBody.innerHTML = "";
 
@@ -140,6 +168,18 @@ function renderTable(list=employees){
     tableBody.appendChild(tr);
   });
   totalCount.textContent = list.length;
+  renderPagination(list);
+}
+
+function renderPagination(list){
+  const totalPages = Math.ceil(list.length / pageSize) || 1;
+  paginationDiv.innerHTML = `
+    <button id="prevPage" class="icon-btn" ${currentPage===1?'disabled':''}>Prev</button>
+    <span style="padding:8px 12px;font-weight:bold;">${currentPage}</span>
+    <button id="nextPage" class="icon-btn" ${currentPage===totalPages?'disabled':''}>Next</button>
+  `;
+  document.getElementById("prevPage").onclick = ()=>{ if(currentPage>1){ currentPage--; renderTable(list);} };
+  document.getElementById("nextPage").onclick = ()=>{ if(currentPage<totalPages){ currentPage++; renderTable(list);} };
 }
 
 // ======== FILTER / SEARCH ========
@@ -171,7 +211,7 @@ function applyFilter(){
 document.getElementById("addBtn").onclick = ()=>openModal(false);
 document.getElementById("closeModalBtn").onclick = closeModal;
 document.getElementById("cancelBtn").onclick = closeModal;
-document.getElementById("saveBtn").onclick = ()=>{
+saveBtn.onclick = ()=>{
   const v = validate();
   if(!v.ok) return showToast(v.msg);
   upsertEmployee(v.data);
@@ -182,3 +222,5 @@ searchInput.oninput = applyFilter;
 // ======== INIT ========
 renderTable();
 populateDepartments();
+updateSaveBtnState();
+saveBtn.disabled = true; 

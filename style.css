@@ -306,6 +306,135 @@ input[type="number"] {
   color: var(--text);
 }
 
+/* ===== Modal Form Container ===== */
+.modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  animation: modalSlide 0.4s ease forwards;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* Modal header */
+.modal-head {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  color: #fff;
+  padding: 18px 20px;
+}
+.modal-head h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+.close-x {
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Modal body (form fields) */
+.modal-body {
+  padding: 22px 24px;
+  background: #f9fafb;
+  display: grid;
+  gap: 18px;
+}
+
+/* Field labels */
+.form-row label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #374151;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Inputs and selects */
+.modal-body input[type="text"],
+.modal-body input[type="number"],
+.modal-body select {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  width: 100%;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.modal-body input:focus,
+.modal-body select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+  outline: none;
+}
+
+/* Validation error message (toast style inline) */
+.status-msg {
+  font-size: 13px;
+  color: #dc2626; /* red */
+  font-weight: 500;
+  margin-top: -10px;
+  min-height: 16px;
+}
+
+/* Modal footer */
+.form-actions {
+  padding: 16px 20px;
+  background: #f3f4f6;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+  text-align: right;
+}
+
+/* Save button with animated entrance */
+.btn.save {
+  background: linear-gradient(135deg, var(--accent), #4ade80);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.2s ease;
+  animation: btnFade 0.35s ease forwards;
+}
+.btn.save:hover {
+  filter: brightness(1.05);
+}
+.btn.save:active {
+  transform: translateY(1px);
+}
+.btn.cancel {
+  background: #e5e7eb;
+  color: #374151;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn.cancel:hover {
+  background: #d1d5db;
+}
+
+/* Animations */
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(-25px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes btnFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes blinkBtn {
+  0%, 50%, 100% { filter: brightness(1); }
+  25%, 75% { filter: brightness(1.4); }
+} 
+
+
 #employeeTable th:nth-child(1),
 #employeeTable th:nth-child(2),
 #employeeTable th:nth-child(3),
